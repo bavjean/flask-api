@@ -3,7 +3,7 @@ from peewee import *
 from datetime import date
 from playhouse.shortcuts import model_to_dict, dict_to_model
 
-db = PostgresqlDatabase('people', user='postgres',
+db = PostgresqlDatabase('metacritic', user='postgres',
                         password='', host='localhost', port=5432)
 
 
@@ -11,7 +11,7 @@ class BaseModel(Model):
     class Meta:
         database = db
 
-class MetacriticReviews(BaseModel):
+class Reviews(BaseModel):
     name: CharField()
     platform: CharField()
     developer: CharField()
@@ -25,5 +25,5 @@ class MetacriticReviews(BaseModel):
 
 
 db.connect()
-db.drop_tables([MetacriticReviews])
-db.create_tables([MetacriticReviews])
+db.drop_tables([Reviews])
+db.create_tables([Reviews])
