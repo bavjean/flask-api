@@ -1,3 +1,4 @@
+import csv
 from flask import Flask, request, jsonify
 from peewee import *
 from playhouse.shortcuts import model_to_dict, dict_to_model
@@ -27,8 +28,10 @@ db.connect()
 db.drop_tables([Review])
 db.create_tables([Review])
 
-
-Review(name='Command & Conquer', platform='PC', developer='Westwood Studios', publisher='Virgin Interactive', genre='Sci-Fi', players='1-4', rating='T', release_date='Aug 31, 1995', link='/game/pc/command-conquer', metascore=47).save()
+with open('test_games.csv', newline='') as csvfile:
+    reader = csv.DictReader(csvfile)
+    for row in reader:
+        Review(name=row['name'], platform=row['platform'], developer=row['developer'], publisher=row['publisher'], genre=row['genre(s)'], players=row['players'], rating=row['rating'], release_date=row['release_date'], link=row['link'], metascore=row['metascore']).save()
 
 app = Flask(__name__)
 
