@@ -28,7 +28,7 @@ db.connect()
 db.drop_tables([Review])
 db.create_tables([Review])
 
-with open('test_games.csv', newline='') as csvfile:
+with open('metacritic_games.csv', newline='') as csvfile:
     reader = csv.DictReader(csvfile)
     for row in reader:
         Review(name=row['name'], platform=row['platform'], developer=row['developer'], publisher=row['publisher'], genre=row['genre(s)'], players=row['players'], rating=row['rating'], release_date=row['release_date'], link=row['link'], metascore=row['metascore']).save()
@@ -37,7 +37,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello_world():
-    return 'Hello World'
+    return 'Metacritic reviews'
 
 @app.route('/game', methods=['GET', 'POST'])
 @app.route('/game/<id>', methods=['GET', 'PUT', 'DELETE'])
@@ -48,7 +48,10 @@ def game(id=None):
             review_dictionary = model_to_dict(review_model)
             return jsonify(review_dictionary)
         else:
-            return 'GET request'
+            review_list = []
+            for review in Review.select():
+                review_list.append(model_to_dict(review))
+            return jsonify(review_list)
 
     if request.method == 'PUT':
         return 'PUT request'
