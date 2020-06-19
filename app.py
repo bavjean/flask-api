@@ -29,4 +29,31 @@ db.create_tables([Review])
 
 
 Review(name='Command & Conquer', platform='PC', developer='Westwood Studios', publisher='Virgin Interactive', genre='Sci-Fi', players='1-4', rating='T', release_date='Aug 31, 1995', link='/game/pc/command-conquer', metascore=47).save()
-# Command & Conquer,PC,Westwood Studios,Virgin Interactive,Sci-Fi,1-4 ,T,,"Aug 31, 1995",/game/pc/command-conquer,5,0,0,94,47,0,1,8.9
+
+app = Flask(__name__)
+
+@app.route('/')
+def hello_world():
+    return 'Hello World'
+
+@app.route('/game', methods=['GET', 'POST'])
+@app.route('/game/<id>', methods=['GET', 'PUT', 'DELETE'])
+def game(id=None):
+    if request.method == 'GET':
+        if id:
+            review_model = Review.get(Review.id == id)
+            review_dictionary = model_to_dict(review_model)
+            return jsonify(review_dictionary)
+        else:
+            return 'GET request'
+
+    if request.method == 'PUT':
+        return 'PUT request'
+
+    if request.method == 'POST':
+        return 'POST request'
+
+    if request.method == 'DELETE':
+        return 'DELETE request'
+
+app.run(port=9000, debug=True)
