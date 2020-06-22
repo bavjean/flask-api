@@ -57,7 +57,9 @@ def game(id=None):
         return 'PUT request'
 
     if request.method == 'POST':
-        return 'POST request'
+        new_review = dict_to_model(Review, request.get_json())
+        new_review.save()
+        return jsonify(model_to_dict(new_review))
 
     if request.method == 'DELETE':
         return 'DELETE request'
