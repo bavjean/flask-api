@@ -16,7 +16,7 @@ List of all game reviews currently in database. Still want to add pagination.
 
 
 
-`games/<id>` GET request
+`/games/<id>` GET request
 
 Select single review by id
 
@@ -28,7 +28,7 @@ Create new entry
 
 
 
-`games/<id>` DELETE request
+`/games/<id>` DELETE request
 
 Delete entry by id
 
