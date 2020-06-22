@@ -39,8 +39,8 @@ app = Flask(__name__)
 def hello_world():
     return 'Metacritic reviews'
 
-@app.route('/game', methods=['GET', 'POST'])
-@app.route('/game/<id>', methods=['GET', 'PUT', 'DELETE'])
+@app.route('/games', methods=['GET', 'POST'])
+@app.route('/games/<id>', methods=['GET', 'PUT', 'DELETE'])
 def game(id=None):
     if request.method == 'GET':
         if id:
@@ -62,6 +62,8 @@ def game(id=None):
         return jsonify(model_to_dict(new_review))
 
     if request.method == 'DELETE':
-        return 'DELETE request'
+        delete_review = Review.get(Review.id == id)
+        Review.delete_instance(delete_review)
+        return jsonify(model_to_dict(delete_review))
 
 app.run(port=9000, debug=True)
